@@ -43,7 +43,7 @@ git push origin master
   <p align="center">
   <img src="https://ruddra.com/content/images/2020/03/github_secret_hu7fba9da1679ce4a56c592454604cb9c1_153648_720x0_resize_q100_box.jpg" width=800px;>
   </p>
-  - Step 6: **Create A GitHub Action**
+ - Step 6: **Create A GitHub Action**
   > Now it is time to do the fun stuff. Let us create an action in .github/workflows/ folder inside the repo(hugo site repo) and name it main.yml.
   
   
@@ -83,3 +83,19 @@ jobs:
           publish_branch: master
         #   cname: example.com
   ```
+> As mentioned from main.yml file, it is named CI and this is going to be triggered when something is pushed to the repo. It will be using an ubuntu-18.04 based VPS to run the pipeline. Now let us go through steps to understand how it works:
+<p>
+In the Git checkout step, we are going to fetch the latest code of our repository which contains Hugo site.
+
+In the Setup hugo step, we are going to use peaceiris/actions-hugo to install Hugo. You need to specify which hugo version you want to use. I would recommend using hugo version of your local machine(command: hugo version).
+
+In the Build step, we are going to build the static contents using hugo --minify command. By using --minify, we are going to minify the assets in the site. For more information, checkout the hugo documentation.
+
+Finally, the Deploy step. Now we are going to deploy the static contents from the last step. And we are going to use peaceiris/actions-gh-pages actions to run the deployment. Here, we used external_repository: <username>/<username>.github.io because otherwise the static contents would be pushed in the same repo(in a different branch). As we specified the external repository, the static contents will be pushed to <username>.github.io. For this step, we will use the personal token which we specified in Step 5. If you uncomment keep_files: true, then the deployment will keep old files from <username>.github.io, otherwise it will replace everything. Finally, if you have a custom domain, then configuring cname is necessary. For more information, please check documentation in GitHub marketplace.</P>
+  - Step 7: **Push to GitHub**
+  >Now push to your Hugo site repository and voila, your action will start automatically. You can check its progress in the **actions** tab.
+   <p align="center">
+  <img src="https://ruddra.com/content/images/2020/03/github_actions_hub1dc45346a8c2fa2bc41a08ab45dcb5f_26415_720x0_resize_q100_box.jpg" width=800px;>
+  
+  </p>
+  > After each successful run, it will push the static contents to your static page repository.
