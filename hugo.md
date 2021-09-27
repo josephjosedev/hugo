@@ -43,6 +43,7 @@ git push origin master
   <p align="center">
   <img src="https://ruddra.com/content/images/2020/03/github_secret_hu7fba9da1679ce4a56c592454604cb9c1_153648_720x0_resize_q100_box.jpg" width=800px;>
   </p>
+  
  - Step 6: **Create A GitHub Action**
   > Now it is time to do the fun stuff. Let us create an action in .github/workflows/ folder inside the repo(hugo site repo) and name it main.yml.
   
@@ -98,4 +99,5 @@ Finally, the Deploy step. Now we are going to deploy the static contents from th
   <img src="https://ruddra.com/content/images/2020/03/github_actions_hub1dc45346a8c2fa2bc41a08ab45dcb5f_26415_720x0_resize_q100_box.jpg" width=800px;>
   
   </p>
+  
   > After each successful run, it will push the static contents to your static page repository.
