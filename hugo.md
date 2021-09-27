@@ -37,3 +37,49 @@ git push origin master
   <p align="center">
   <img src="https://ruddra.com/content/images/2020/03/github_token_hu7fba9da1679ce4a56c592454604cb9c1_173034_720x0_resize_q100_box.jpg" width=800px;>
   </p>
+  
+  - Step 5: **Add token as secret in GitHub**
+  > The token last step, you can store it in the Secrets setting of the repo. It can be accessible from https://github.com/<username>/<repo-name>/settings/secrets. Store it like this:
+  <p align="center">
+  <img src="https://ruddra.com/content/images/2020/03/github_secret_hu7fba9da1679ce4a56c592454604cb9c1_153648_720x0_resize_q100_box.jpg" width=800px;>
+  </p>
+  - Step 6: **Create A GitHub Action**
+  > Now it is time to do the fun stuff. Let us create an action in .github/workflows/ folder inside the repo(hugo site repo) and name it main.yml.
+  
+  
+  ```
+ name: CI
+on: push
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Git checkout
+        uses: actions/checkout
+
+      - name: Update theme
+        # (Optional)If you have the theme added as submodule, you can pull it and use the most updated version
+        run: git submodule update --init --recursive
+
+      - name: Setup hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.64.0"
+
+      - name: Build
+        # remove --minify tag if you do not need it
+        # docs: https://gohugo.io/hugo-pipes/minification/
+        run: hugo --minify
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.TOKEN }}
+          external_repository: <username>/<username>.github.io
+          publish_dir: ./public
+          #   keep_files: true
+          user_name: <username>
+          user_email: <username@email.com>
+          publish_branch: master
+        #   cname: example.com
+  ```
